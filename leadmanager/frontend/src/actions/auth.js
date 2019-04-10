@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { returnErrors } from './messsages';
 
-import { USER_LOADED, USER_LOADING, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS } from './types';
+import { USER_LOADED, USER_LOADING, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, REGISTER_SUCCESS, REGISTER_FAIL } from './types';
 
-/* CHECK TOKEN && LOAD USER */
+/* Check token && Load User */
 export const loadUser = () => (dispatch, getState) => {
     /* User Loading */
     dispatch({ type: USER_LOADING });
@@ -22,7 +22,7 @@ export const loadUser = () => (dispatch, getState) => {
         });
 };
 
-// LOGIN USER
+/* Login User */
 export const login = (username, password) => dispatch => {
     // Headers
     const config = {
@@ -31,7 +31,7 @@ export const login = (username, password) => dispatch => {
         }
     };
 
-    // Request Body
+    /* Request Body */
     const body = JSON.stringify({ username, password });
 
     axios
@@ -46,6 +46,34 @@ export const login = (username, password) => dispatch => {
             dispatch(returnErrors(err.response.data, err.response.status));
             dispatch({
                 type: LOGIN_FAIL
+            });
+        });
+};
+
+/* Register User */
+export const register = ({ username, password, email }) => dispatch => {
+    // Headers
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    /* Request Body */
+    const body = JSON.stringify({ username, email, password });
+
+    axios
+        .post("/api/auth/register", body, config)
+        .then(res => {
+            dispatch({
+                type: REGISTER_SUCCESS,
+                payload: res.data
+            });
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status));
+            dispatch({
+                type: REGISTER_FAIL
             });
         });
 };
