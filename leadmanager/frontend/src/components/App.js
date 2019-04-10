@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
+import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 import { Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
@@ -14,7 +15,6 @@ import PrivateRoute from './common/PrivateRoute';
 
 import { Provider } from 'react-redux';
 import store from '../store';
-import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { loadUser } from '../actions/auth';
 
 /* Alert Options */
